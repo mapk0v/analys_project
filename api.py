@@ -14,6 +14,10 @@ from task3_ai_analytics import AIAnalytics
 from typing import List, Optional
 from pydantic import BaseModel
 
+import json
+import numpy as np
+
+
 class AIReportResponse(BaseModel):
     city: str
     region: str
@@ -275,6 +279,30 @@ async def get_ai_report(city_name: str):
     if "не найдены" in report.get('section_31_summary', ''):
         raise HTTPException(status_code=404, detail=f"Город '{city_name}' не найден в данных")
 
+    # Преобразуем numpy типы в стандартные Python
+    from numpy import integer, floating, ndarray
+    import json
+
+    def convert_to_serializable(obj):
+        """Рекурсивно преобразует numpy типы в стандартные Python"""
+        if isinstance(obj, (integer, np.int64, np.int32)):
+            return int(obj)
+        elif isinstance(obj, (floating, np.float64, np.float32)):
+            return float(obj)
+        elif isinstance(obj, ndarray):
+            return obj.tolist()
+        elif isinstance(obj, dict):
+            return {k: convert_to_serializable(v) for k, v in obj.items()}
+        elif isinstance(obj, (list, tuple)):
+            return [convert_to_serializable(item) for item in obj]
+        elif hasattr(obj, '__dict__') and not isinstance(obj, (str, int, float, bool)):
+            # Для объектов, не являющихся примитивами
+            return convert_to_serializable(obj.__dict__)
+        return obj
+
+    # Применяем конвертацию
+    report = convert_to_serializable(report)
+
     return report
 
 
@@ -324,3 +352,12 @@ async def get_ai_recommendations(city_name: str):
     if not recommendations:
         raise HTTPException(status_code=404, detail=f"Город '{city_name}' не найден или нет рекомендаций")
     return {"city": city_name, "recommendations": recommendations}
+
+# ==================== Дополнительные эндпоинты ====================
+
+@app.get("/api/available_years")
+async def get_available_years():
+    """Получить диапазон лет, за которые есть исторические данные"""
+    years = sorted(monitor.historical['year'].unique())
+    return {"min_year": int(min(years)), "max_year": int(max(years)), "all_years": [int(y) for y in years]}
+

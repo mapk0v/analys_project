@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f749873-b4a5-4e17-9887-4f42abccf040" name="Changes" comment="Эндпоинты прогнозирования">
+    <list default="true" id="9f749873-b4a5-4e17-9887-4f42abccf040" name="Changes" comment="Эндпоинты для AI-аналитики">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api.py" afterDir="false" />
     </list>
@@ -121,7 +121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777093264353</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Эндпоинты для AI-аналитики">
+      <option name="closed" value="true" />
+      <created>1777099518072</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1777099518072</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -152,6 +160,7 @@
     <MESSAGE value="Добавление FastAPI и CORS" />
     <MESSAGE value="Добавление эндпоинтов" />
     <MESSAGE value="Эндпоинты прогнозирования" />
-    <option name="LAST_COMMIT_MESSAGE" value="Эндпоинты прогнозирования" />
+    <MESSAGE value="Эндпоинты для AI-аналитики" />
+    <option name="LAST_COMMIT_MESSAGE" value="Эндпоинты для AI-аналитики" />
   </component>
 </project>
