@@ -2,8 +2,8 @@
 API для аналитической системы демографии РФ
 """
 
-from fastapi import FastAPI
-from fastapi import HTTPException
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import PlainTextResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 # Импортируем существующие классы аналитики
@@ -13,6 +13,16 @@ from task3_ai_analytics import AIAnalytics
 
 from typing import List, Optional
 from pydantic import BaseModel
+
+class AIReportResponse(BaseModel):
+    city: str
+    region: str
+    generated_at: str
+    section_31_summary: str
+    section_32_trends_and_factors: dict
+    section_33_forecast: dict
+    section_34_recommendations: List[dict]
+    section_35_conclusion: str
 
 class ForecastResponse(BaseModel):
     city: str
@@ -249,3 +259,68 @@ async def get_forecast_scenarios(city_name: str, horizon: int = 15):
             for name, sc in scenarios['scenarios'].items()
         }
     }
+
+
+# ==================== Эндпоинты для AI-аналитики ====================
+
+@app.get("/api/ai/report/{city_name}")
+async def get_ai_report(city_name: str):
+    """
+    Получить полный аналитический отчёт по городу в формате JSON.
+    Если город не найден, возвращает 404.
+    """
+    report = ai_analytics.generate_full_report(city_name, forecast_horizon=10)
+
+    # Проверяем, есть ли данные по городу (если резюме содержит фразу "не найдены")
+    if "не найдены" in report.get('section_31_summary', ''):
+        raise HTTPException(status_code=404, detail=f"Город '{city_name}' не найден в данных")
+
+    return report
+
+
+@app.get("/api/ai/report/{city_name}/markdown")
+async def get_ai_report_markdown(city_name: str):
+    """
+    Скачать аналитический отчёт в формате Markdown.
+    """
+    md_content = ai_analytics.generate_markdown_report(city_name, forecast_horizon=10)
+
+    if md_content is None or "не найдены" in md_content:
+        raise HTTPException(status_code=404, detail=f"Город '{city_name}' не найден в данных")
+
+    # Используем только латиницу в имени файла, чтобы избежать проблем с кодировкой
+    # Транслитерация простейшая (можно заменить на любую)
+    translit_map = {
+        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e',
+        'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+        'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+        'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
+        'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+    }
+
+    safe_name = ''.join(translit_map.get(c.lower(), c.lower()) for c in city_name)
+    safe_name = safe_name.replace(' ', '_')
+
+    return PlainTextResponse(
+        content=md_content,
+        media_type="text/markdown",
+        headers={"Content-Disposition": f"attachment; filename={safe_name}_analytics_report.md"}
+    )
+
+
+@app.get("/api/ai/summary/{city_name}")
+async def get_ai_summary(city_name: str):
+    """Получить только краткое резюме (пункт 3.1)"""
+    summary = ai_analytics.generate_summary(city_name)
+    if summary is None or "не найдены" in summary:
+        raise HTTPException(status_code=404, detail=f"Город '{city_name}' не найден")
+    return {"city": city_name, "summary": summary}
+
+
+@app.get("/api/ai/recommendations/{city_name}")
+async def get_ai_recommendations(city_name: str):
+    """Получить только рекомендации (пункт 3.4)"""
+    recommendations = ai_analytics.generate_recommendations(city_name)
+    if not recommendations:
+        raise HTTPException(status_code=404, detail=f"Город '{city_name}' не найден или нет рекомендаций")
+    return {"city": city_name, "recommendations": recommendations}
