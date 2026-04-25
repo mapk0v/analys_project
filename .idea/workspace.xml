@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f749873-b4a5-4e17-9887-4f42abccf040" name="Changes" comment="готовый проект">
-      <change afterPath="$PROJECT_DIR$/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/analys_project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/analys_project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="9f749873-b4a5-4e17-9887-4f42abccf040" name="Changes" comment="Добавление FastAPI и CORS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +97,15 @@
       <option name="presentableId" value="Default" />
       <updated>1776878657503</updated>
     </task>
+    <task id="LOCAL-00001" summary="Добавление FastAPI и CORS">
+      <option name="closed" value="true" />
+      <created>1777088224636</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1777088224637</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,6 +133,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="готовый проект" />
-    <option name="LAST_COMMIT_MESSAGE" value="готовый проект" />
+    <MESSAGE value="Добавление FastAPI и CORS" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавление FastAPI и CORS" />
   </component>
 </project>
