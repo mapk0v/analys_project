@@ -430,7 +430,7 @@ function renderAnalytics(data) {
                 </div>
             </div>
         </div>
-        
+
         <div class="panel">
             <div class="panel-header">Краткое резюме</div>
             <div class="panel-body">
@@ -501,11 +501,25 @@ function renderAnalytics(data) {
             </div>
         </div>` : ''}
         
-        <div style="text-align:center;margin:16px 0;">
-            <button class="btn btn-outline" onclick="window.open('/api/ai/report/${encodeURIComponent(data.city)}/markdown', '_blank')">
-                Скачать Markdown
+
+
+        <div style="text-align:center;margin:16px 0; display:flex; gap:10px; justify-content:center;">
+            <button class="btn btn-outline"
+            onclick="window.open('/api/ai/report/${encodeURIComponent(data.city)}/markdown', '_blank')">
+                Markdown
             </button>
+
+            <button class="btn btn-outline"
+                onclick="window.open('/api/ai/report/${encodeURIComponent(data.city)}/pdf', '_blank')">
+                PDF
+            </button>
+
+            <button class="btn btn-outline"
+                onclick="window.open('/api/ai/report/${encodeURIComponent(data.city)}/docx', '_blank')">
+                Word
+                </button>
         </div>
+
     `;
 
     outputArea.innerHTML = html;

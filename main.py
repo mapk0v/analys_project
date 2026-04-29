@@ -13,7 +13,7 @@ from task2_forecasting import PopulationForecaster
 from task3_ai_analytics import AIAnalytics
 from utils import save_report
 from config import REPORTS_DIR
-
+from task4_llm_analytics import LLMAnalytics
 
 def print_separator():
     print("\n" + "-"*50)

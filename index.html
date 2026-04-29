@@ -996,11 +996,27 @@
                     </div>
                 </div>` : ''}
                 
-                <div style="text-align:center;margin:16px 0;">
-                    <button class="btn btn-outline" onclick="window.open('/api/ai/report/${encodeURIComponent(data.city)}/markdown', '_blank')">
-                        Скачать Markdown
-                    </button>
+
+                <div style="text-align:center;margin:16px 0; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                    <button class="btn btn-outline"
+                        onclick="window.open('/api/ai/report/${encodeURIComponent(data.city)}/markdown', '_blank')">
+                        Markdown
+                       </button>
+
+                <button class="btn btn-outline"
+                    onclick="window.open('/api/ai/report/${encodeURIComponent(data.city)}/pdf', '_blank')">
+                    PDF
+                </button>
+
+                <button class="btn btn-outline"
+                    onclick="window.open('/api/ai/report/${encodeURIComponent(data.city)}/docx', '_blank')">
+                    Word (DOCX)
+                </button>
                 </div>
+
+
+
+
             `;
 
             outputArea.innerHTML = html;
